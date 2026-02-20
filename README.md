@@ -326,7 +326,7 @@ Real-Time API Data
 
 <hr>
 
-<h2 align="center">Developed for Advanced AI/ML Research & Final Year Project</h2>
+</h2>
 
 </body>
 </html>
