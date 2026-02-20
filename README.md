@@ -195,6 +195,112 @@ Advisory Generated: Yes
 </pre>
 
 <hr>
+<hr>
+
+<h2>📊 Dataset Information</h2>
+
+<h3>🔹 What is a Dataset?</h3>
+<p>
+A dataset is a structured collection of environmental data used to train and evaluate
+machine learning models. In this project, the dataset contains historical air pollution
+and weather parameters used for AQI forecasting.
+</p>
+
+<h4>Example Dataset Structure:</h4>
+
+<table border="1" cellpadding="8">
+<tr>
+<th>Date</th>
+<th>PM2.5</th>
+<th>PM10</th>
+<th>NO₂</th>
+<th>SO₂</th>
+<th>CO</th>
+<th>Temperature</th>
+<th>Humidity</th>
+<th>AQI</th>
+</tr>
+<tr>
+<td>2023-01-01</td>
+<td>120</td>
+<td>200</td>
+<td>40</td>
+<td>15</td>
+<td>0.8</td>
+<td>29</td>
+<td>60</td>
+<td>250</td>
+</tr>
+</table>
+
+<hr>
+
+<h3>🔹 Historical Dataset (Model Training)</h3>
+
+<p>
+The machine learning and deep learning models are trained using historical air quality data.
+</p>
+
+<ul>
+<li><b>Kaggle – Air Pollution & Delhi AQI Dataset</b></li>
+<li><b>Central Pollution Control Board (CPCB) – Government Data</b></li>
+<li><b>OpenAQ – Historical Pollution Data</b></li>
+</ul>
+
+<p>
+These datasets provide multi-year station-wise AQI and pollutant data,
+which are used to train the LSTM time-series forecasting model.
+</p>
+
+<hr>
+
+<h3>🔹 Real-Time Data (Live Prediction)</h3>
+
+<p>
+For real-time forecasting and dashboard updates, live data is fetched using APIs:
+</p>
+
+<ul>
+<li><b>OpenWeather API</b> – Temperature, humidity, wind speed, AQI components</li>
+<li><b>OpenAQ API</b> – Real-time pollution measurements</li>
+</ul>
+
+<p>
+The system collects live environmental data every hour, stores it in PostgreSQL,
+and uses it as input for prediction and risk classification.
+</p>
+
+<hr>
+
+<h3>🔹 How Dataset is Used in the System</h3>
+
+<pre>
+Historical Dataset (Kaggle / CPCB)
+            ↓
+     Train LSTM Model
+            ↓
+Real-Time API Data
+            ↓
+     AQI Forecast Prediction
+            ↓
+     Risk Classification
+            ↓
+     RAG-Based Advisory Generation
+</pre>
+
+<hr>
+
+<h3>🔹 Why This Dataset Strategy is Strong</h3>
+
+<ul>
+<li>Combines historical multi-year training data</li>
+<li>Integrates real-time API updates</li>
+<li>Supports time-series deep learning forecasting</li>
+<li>Enables dynamic health advisory generation</li>
+<li>Ensures government-backed validation sources</li>
+</ul>
+
+<hr>
 
 <h2>🎓 Academic Value</h2>
 
