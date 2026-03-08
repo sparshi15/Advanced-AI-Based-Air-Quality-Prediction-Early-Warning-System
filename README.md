@@ -1,9 +1,5 @@
-# Advanced-AI-Based-Air-Quality-Prediction-Early-Warning-System
-<!DOCTYPE html>
-<html>
-<head>
-    
-</head>
+
+
 <body style="font-family: Arial, sans-serif; line-height:1.6;">
 
 <h1 align="center">🌍 Delhi AQI Intelligence Platform</h1>
