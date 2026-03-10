@@ -1,6 +1,8 @@
 import requests
+import os
 
-API_KEY = "aab3e602450dcc93b24ffbade158809f"
+API_KEY = os.getenv("OPENWEATHER_KEY")
+
 def get_air_quality():
 
     lat = 28.6139
