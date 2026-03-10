@@ -1,6 +1,6 @@
 from fastapi import FastAPI
-from fetch_api import get_air_quality
-from database import conn, cursor
+from backend.fetch_api import get_air_quality
+from backend.database import conn, cursor
 from apscheduler.schedulers.background import BackgroundScheduler
 
 app = FastAPI()
@@ -51,4 +51,5 @@ scheduler = BackgroundScheduler()
 def start_scheduler():
     scheduler.add_job(store_data, "interval", hours=1)
     scheduler.start()
+
 
