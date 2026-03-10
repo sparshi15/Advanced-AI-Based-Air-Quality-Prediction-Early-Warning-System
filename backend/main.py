@@ -11,39 +11,44 @@ def store_data():
     data = get_air_quality()
 
     cursor.execute(
-    """
-    INSERT INTO aqi_data 
-    (pm25, pm10, no2, so2, co, o3, temperature, humidity)
-    VALUES (%s,%s,%s,%s,%s,%s,%s,%s)
-    """,
-    (
-        data["pm25"],
-        data["pm10"],
-        data["no2"],
-        data["so2"],
-        data["co"],
-        data["o3"],
-        data["temperature"],
-        data["humidity"]
-    )
+        """
+        INSERT INTO aqi_data 
+        (pm25, pm10, no2, so2, co, o3, temperature, humidity)
+        VALUES (%s,%s,%s,%s,%s,%s,%s,%s)
+        """,
+        (
+            data["pm25"],
+            data["pm10"],
+            data["no2"],
+            data["so2"],
+            data["co"],
+            data["o3"],
+            data["temperature"],
+            data["humidity"]
+        )
     )
 
     conn.commit()
 
     print("AQI data stored")
 
-# API endpoint
+
 @app.get("/")
 def home():
     return {"message": "AQI Server Running"}
 
-# manual trigger
+
 @app.get("/store")
 def store():
     store_data()
     return {"status": "data stored"}
 
-# scheduler
+
+# start scheduler when server starts
 scheduler = BackgroundScheduler()
-scheduler.add_job(store_data, "interval", hours=1)
-scheduler.start()
+
+@app.on_event("startup")
+def start_scheduler():
+    scheduler.add_job(store_data, "interval", hours=1)
+    scheduler.start()
+
