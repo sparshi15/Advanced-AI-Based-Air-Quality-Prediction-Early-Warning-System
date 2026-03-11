@@ -17,17 +17,18 @@ This project is an advanced AI-based environmental intelligence system designed 
 It collects real-time air quality and weather data, predicts AQI levels for the next 1–2 days using Deep Learning,
 classifies pollution risk using Machine Learning, and generates dynamic health advisories using RAG and Generative AI.
 </p>
+<p> 
  Data Collection Strategy 
 Historical Dataset (Training Data) 
 To train the forecasting models, historical air pollution datasets were 
-collected from Kaggle. 
+collected from Kaggle.
+</p>
 1. Primary Dataset: 
 Delhi NCR Hourly Air Quality Dataset (2019–2024) 
 https://www.kaggle.com/datasets/aniket0712/delhi-ncr-hourly-air-quality-dataset-20192024
 Additional Dataset: 
 Air Quality Data in India (2015–2020) 
-Kaggle Link: 
-https://www.kaggle.com/datasets/rohanrao/air-quality-data-in-india 
+Kaggle Link: https://www.kaggle.com/datasets/rohanrao/air-quality-data-in-india 
 
 <hr>
 
