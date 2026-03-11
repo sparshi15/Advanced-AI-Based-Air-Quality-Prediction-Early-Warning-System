@@ -26,9 +26,11 @@ collected from Kaggle.
 1. Primary Dataset: 
 Delhi NCR Hourly Air Quality Dataset (2019–2024) 
 https://www.kaggle.com/datasets/aniket0712/delhi-ncr-hourly-air-quality-dataset-20192024
-Additional Dataset: 
+<p> 
+2.Additional Dataset: 
 Air Quality Data in India (2015–2020) 
-Kaggle Link: https://www.kaggle.com/datasets/rohanrao/air-quality-data-in-india 
+Kaggle Link: https://www.kaggle.com/datasets/rohanrao/air-quality-data-in-india
+<p> 
 
 <hr>
 
