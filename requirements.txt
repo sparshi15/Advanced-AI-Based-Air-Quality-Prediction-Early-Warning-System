@@ -1,5 +1,4 @@
-fastapi
-uvicorn
+
 requests
 psycopg2-binary
 fastapi
@@ -11,5 +10,5 @@ pandas
 numpy
 scikit-learn
 joblib
-tensorflow
-apscheduler
+tensorflow-cpu
+
