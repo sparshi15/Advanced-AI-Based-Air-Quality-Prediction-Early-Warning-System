@@ -10,5 +10,6 @@ pandas
 numpy
 scikit-learn
 joblib
-tensorflow-cpu
+tensorflow==2.15.0
+
 
