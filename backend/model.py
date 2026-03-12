@@ -1,15 +1,20 @@
 import pandas as pd
 import numpy as np
+import joblib
 from backend.database import conn
 from tensorflow.keras.models import load_model
 
-# load trained model
-model = load_model("my_model.keras")
+# load model
+model = load_model("delhi_lstm_model.keras")
+
+# load scaler
+scaler = joblib.load("scaler.pkl")
+
 
 def get_latest_data():
 
     query = """
-    SELECT pm25, pm10, no2, so2, co, o3, temperature
+    SELECT pm25, pm10, no2, so2, co, o3, aqi
     FROM aqi_data
     ORDER BY created_at DESC
     LIMIT 24
@@ -17,11 +22,11 @@ def get_latest_data():
 
     df = pd.read_sql(query, conn)
 
-    # reverse order so oldest → newest
     df = df[::-1]
 
-    # handle case when less than 24 rows exist
+    # padding if rows < 24
     if len(df) < 24:
+
         missing = 24 - len(df)
 
         first_row = df.iloc[0]
@@ -37,10 +42,17 @@ def predict_real_time_aqi():
 
     df = get_latest_data()
 
-    data = df.values
+    # scale input
+    data_scaled = scaler.transform(df)
 
-    data = np.reshape(data, (1, 24, 7))
+    data_scaled = np.reshape(data_scaled, (1, 24, 7))
 
-    prediction = model.predict(data)
+    prediction_scaled = model.predict(data_scaled)
 
-    return float(prediction[0][0])
+    # convert back to original AQI scale
+    dummy = np.zeros((1,7))
+    dummy[0,-1] = prediction_scaled
+
+    prediction = scaler.inverse_transform(dummy)[0,-1]
+
+    return float(prediction)
