@@ -4,7 +4,6 @@ import joblib
 from backend.database import conn
 from tensorflow.keras.models import load_model
 
-from tensorflow.keras.models import load_model
 
 model = load_model("delhi_lstm_model.h5", compile=False)
 
