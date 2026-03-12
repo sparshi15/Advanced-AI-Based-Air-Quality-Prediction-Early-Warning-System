@@ -1,13 +1,12 @@
-import numpy as np
 import pandas as pd
-import joblib
-from tensorflow.keras.models import load_model
+import numpy as np
 from backend.database import conn
+from tensorflow.keras.models import load_model
 
-model = load_model("aqi_lstm_model.h5")
-scaler = joblib.load("scaler.pkl")
+# load trained model
+model = load_model("my_model.keras")
 
-def predict_real_time_aqi():
+def get_latest_data():
 
     query = """
     SELECT pm25, pm10, no2, so2, co, o3, temperature
@@ -18,11 +17,29 @@ def predict_real_time_aqi():
 
     df = pd.read_sql(query, conn)
 
+    # reverse order so oldest → newest
     df = df[::-1]
 
-    data = scaler.transform(df)
+    # handle case when less than 24 rows exist
+    if len(df) < 24:
+        missing = 24 - len(df)
 
-    data = np.reshape(data,(1,24,7))
+        first_row = df.iloc[0]
+
+        padding = pd.DataFrame([first_row] * missing)
+
+        df = pd.concat([padding, df], ignore_index=True)
+
+    return df
+
+
+def predict_real_time_aqi():
+
+    df = get_latest_data()
+
+    data = df.values
+
+    data = np.reshape(data, (1, 24, 7))
 
     prediction = model.predict(data)
 
