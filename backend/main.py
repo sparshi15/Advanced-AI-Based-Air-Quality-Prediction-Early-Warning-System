@@ -2,6 +2,24 @@ from fastapi import FastAPI
 from backend.fetch_api import get_air_quality
 from backend.database import conn, cursor
 from apscheduler.schedulers.background import BackgroundScheduler
+from backend.model import predict_real_time_aqi
+
+app = FastAPI()
+
+@app.get("/")
+def home():
+    return {"message": "AQI Server Running"}
+
+
+@app.get("/predict-aqi")
+def predict_aqi():
+
+    prediction = predict_real_time_aqi()
+
+    return {
+        "predicted_aqi": prediction
+    }
+
 
 app = FastAPI()
 
@@ -51,5 +69,19 @@ scheduler = BackgroundScheduler()
 def start_scheduler():
     scheduler.add_job(store_data, "interval", hours=1)
     scheduler.start()
+from fastapi import FastAPI
+from model import predict_real_time_aqi
+
+
+
+@app.get("/predict-aqi")
+def predict_aqi():
+
+    prediction = predict_real_time_aqi()
+
+    return {
+        "predicted_aqi": prediction
+    }
+
 
 
