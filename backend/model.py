@@ -5,7 +5,7 @@ from backend.database import conn
 from tensorflow.keras.models import load_model
 
 # load model
-model = load_model("delhi_lstm_model.keras")
+model = load_model("my_model.keras")
 
 # load scaler
 scaler = joblib.load("scaler.pkl")
