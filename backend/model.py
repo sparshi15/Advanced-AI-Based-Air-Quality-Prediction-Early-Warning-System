@@ -1,6 +1,6 @@
 import pandas as pd
 import numpy as np
-from database import conn
+from backend.database import conn
 from tensorflow.keras.models import load_model
 
 # load trained LSTM model
@@ -28,6 +28,15 @@ def predict_real_time_aqi():
     df = get_latest_data()
 
     data = df.values
+    if len(df) < 24:
+
+    missing = 24 - len(df)
+
+    first_row = df.iloc[0]
+
+    padding = pd.DataFrame([first_row] * missing)
+
+    df = pd.concat([padding, df], ignore_index=True)
 
     data = np.reshape(data, (1, 24, 7))
 
