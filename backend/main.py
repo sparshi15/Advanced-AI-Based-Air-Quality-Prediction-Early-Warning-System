@@ -11,17 +11,9 @@ def home():
     return {"message": "AQI Server Running"}
 
 
-@app.get("/predict-aqi")
-def predict_aqi():
-
-    prediction = predict_real_time_aqi()
-
-    return {
-        "predicted_aqi": prediction
-    }
 
 
-app = FastAPI()
+
 
 # function to store data
 def store_data():
@@ -82,6 +74,7 @@ def predict_aqi():
     return {
         "predicted_aqi": prediction
     }
+
 
 
 
