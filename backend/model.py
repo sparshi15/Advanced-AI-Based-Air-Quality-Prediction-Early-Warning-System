@@ -20,11 +20,7 @@ model.add(Dropout(0.2))
 model.add(Dense(1))
 
 import os
-
-BASE_DIR = os.path.dirname(os.path.dirname(https://github.com/sparshi15/Advanced-AI-Based-Air-Quality-Prediction-Early-Warning-System/blob/main/delhi_lstm_model.h5))
-weights_path = os.path.join(BASE_DIR, "delhi_lstm_weights.h5")
-
-model.load_weights(weights_path)
+model = load_model("delhi_lstm_model.h5", compile=False)
 
 # Load scaler used during training
 scaler = joblib.load("scaler.pkl")
