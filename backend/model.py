@@ -4,6 +4,7 @@ import joblib
 from backend.database import conn
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import LSTM, Dense, Dropout
+from tensorflow.keras.models import load_model
 import os
 
 
