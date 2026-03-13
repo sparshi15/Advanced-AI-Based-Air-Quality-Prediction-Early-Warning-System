@@ -19,11 +19,14 @@ model.add(Dropout(0.2))
 
 model.add(Dense(1))
 
-# Load trained weights
-model.load_weights("delhi_lstm_weights.h5")
 
-# Load scaler used during training
+# load trained model
+model = load_model("delhi_lstm_model.h5", compile=False)
+
+# load scaler
 scaler = joblib.load("scaler.pkl")
+
+
 
 
 # ---------- Fetch latest data from PostgreSQL ----------
