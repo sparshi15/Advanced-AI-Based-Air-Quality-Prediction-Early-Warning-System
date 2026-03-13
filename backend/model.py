@@ -4,6 +4,9 @@ import joblib
 from backend.database import conn
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import LSTM, Dense, Dropout
+import os
+
+
 
 # ---------- Rebuild model architecture ----------
 model = Sequential()
@@ -16,8 +19,12 @@ model.add(Dropout(0.2))
 
 model.add(Dense(1))
 
-# Load trained weights
-model.load_weights("delhi_lstm_weights.h5")
+import os
+
+BASE_DIR = os.path.dirname(os.path.dirname(https://github.com/sparshi15/Advanced-AI-Based-Air-Quality-Prediction-Early-Warning-System/blob/main/delhi_lstm_model.h5))
+weights_path = os.path.join(BASE_DIR, "delhi_lstm_weights.h5")
+
+model.load_weights(weights_path)
 
 # Load scaler used during training
 scaler = joblib.load("scaler.pkl")
