@@ -19,8 +19,8 @@ model.add(Dropout(0.2))
 
 model.add(Dense(1))
 
-import os
-model = load_model("delhi_lstm_model.h5", compile=False)
+# Load trained weights
+model.load_weights("delhi_lstm_weights.h5")
 
 # Load scaler used during training
 scaler = joblib.load("scaler.pkl")
