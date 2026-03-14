@@ -1,24 +1,26 @@
 from fastapi import FastAPI
 from apscheduler.schedulers.background import BackgroundScheduler
 from backend.fetch_api import get_air_quality
-from backend.database import conn, cursor
-from backend.model import predict_real_time_aqi
 from backend.database import get_connection
-from backend.fetch_api import get_air_quality
+from backend.model import predict_real_time_aqi
 
 app = FastAPI()
 
-# Home route
+# -------------------------
+# Home Route
+# -------------------------
 @app.get("/")
 def home():
     return {"message": "AQI Server Running"}
 
+
+# -------------------------
+# Store AQI Data
+# -------------------------
 def store_data():
     try:
-        # fetch air quality data
         data = get_air_quality()
 
-        # open database connection
         conn = get_connection()
         cursor = conn.cursor()
 
@@ -51,39 +53,58 @@ def store_data():
         print("ERROR storing AQI data:", e)
 
 
-
-
-
-# manual trigger
+# -------------------------
+# Manual Store Route
+# -------------------------
 @app.get("/store")
 def store():
     store_data()
-    return {"status": "data stored"}
+    return {"status": "data stored successfully"}
 
-# scheduler
-scheduler = BackgroundScheduler()
-scheduler.add_job(store_data, "interval", hours=1)
-scheduler.start()
-    
+
+# -------------------------
+# Fetch Stored Data
+# -------------------------
 @app.get("/data")
 def get_data():
 
-    cursor.execute("SELECT * FROM aqi_data ORDER BY created_at DESC LIMIT 10")
+    conn = get_connection()
+    cursor = conn.cursor()
+
+    cursor.execute(
+        "SELECT * FROM aqi_data ORDER BY created_at DESC LIMIT 10"
+    )
 
     rows = cursor.fetchall()
+
+    cursor.close()
+    conn.close()
 
     return {"data": rows}
 
 
-# AQI prediction route
+# -------------------------
+# AQI Prediction
+# -------------------------
 @app.get("/predict-aqi")
 def predict_aqi():
 
     prediction = predict_real_time_aqi()
 
-    return {
-        "predicted_aqi": prediction
-    }
+    return {"predicted_aqi": prediction}
+
+
+# -------------------------
+# Scheduler
+# -------------------------
+scheduler = BackgroundScheduler()
+
+@app.on_event("startup")
+def start_scheduler():
+    scheduler.add_job(store_data, "interval", hours=1)
+    scheduler.start()
+
+    print("Scheduler started")
 
 
 
