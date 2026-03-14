@@ -3,6 +3,8 @@ from apscheduler.schedulers.background import BackgroundScheduler
 from backend.fetch_api import get_air_quality
 from backend.database import conn, cursor
 from backend.model import predict_real_time_aqi
+from backend.database import get_connection
+from backend.fetch_api import get_air_quality
 
 app = FastAPI()
 
@@ -10,10 +12,6 @@ app = FastAPI()
 @app.get("/")
 def home():
     return {"message": "AQI Server Running"}
-from backend.database import get_connection
-
-from backend.database import get_connection
-from backend.fetch_api import get_air_quality
 
 def store_data():
     try:
