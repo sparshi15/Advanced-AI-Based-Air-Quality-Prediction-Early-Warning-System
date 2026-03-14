@@ -3,7 +3,6 @@ import os
 
 DATABASE_URL = os.environ.get("DATABASE_URL")
 
-print("DATABASE_URL loaded:", DATABASE_URL)
-
-conn = psycopg2.connect(DATABASE_URL)
-cursor = conn.cursor()
+def get_connection():
+    conn = psycopg2.connect(DATABASE_URL)
+    return conn
