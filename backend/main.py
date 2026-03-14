@@ -44,6 +44,15 @@ def store_data():
 def store():
     store_data()
     return {"status": "data stored successfully"}
+    
+@app.get("/data")
+def get_data():
+
+    cursor.execute("SELECT * FROM aqi_data ORDER BY created_at DESC LIMIT 10")
+
+    rows = cursor.fetchall()
+
+    return {"data": rows}
 
 
 # AQI prediction route
