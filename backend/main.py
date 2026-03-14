@@ -10,35 +10,50 @@ app = FastAPI()
 @app.get("/")
 def home():
     return {"message": "AQI Server Running"}
+from backend.database import get_connection
 
+from backend.database import get_connection
+from backend.fetch_api import get_air_quality
 
-
-# function to store data
 def store_data():
+    try:
+        # fetch air quality data
+        data = get_air_quality()
 
-    data = get_air_quality()
+        # open database connection
+        conn = get_connection()
+        cursor = conn.cursor()
 
-    cursor.execute(
-    """
-    INSERT INTO aqi_data 
-    (pm25, pm10, no2, so2, co, o3, temperature, humidity)
-    VALUES (%s,%s,%s,%s,%s,%s,%s,%s)
-    """,
-    (
-        data["pm25"],
-        data["pm10"],
-        data["no2"],
-        data["so2"],
-        data["co"],
-        data["o3"],
-        data["temperature"],
-        data["humidity"]
-    )
-    )
+        cursor.execute(
+            """
+            INSERT INTO aqi_data
+            (pm25, pm10, no2, so2, co, o3, temperature, humidity)
+            VALUES (%s,%s,%s,%s,%s,%s,%s,%s)
+            """,
+            (
+                data["pm25"],
+                data["pm10"],
+                data["no2"],
+                data["so2"],
+                data["co"],
+                data["o3"],
+                data["temperature"],
+                data["humidity"]
+            )
+        )
 
-    conn.commit()
+        conn.commit()
 
-    print("AQI data stored")
+        cursor.close()
+        conn.close()
+
+        print("AQI data stored successfully")
+
+    except Exception as e:
+        print("ERROR storing AQI data:", e)
+
+
+
 
 
 # manual trigger
