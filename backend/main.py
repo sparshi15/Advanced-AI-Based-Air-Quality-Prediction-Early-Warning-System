@@ -11,39 +11,46 @@ app = FastAPI()
 def home():
     return {"message": "AQI Server Running"}
 
-# function to store AQI data
+
+
+# function to store data
 def store_data():
 
     data = get_air_quality()
 
     cursor.execute(
-        """
-        INSERT INTO aqi_data
-        (pm25, pm10, no2, so2, co, o3, temperature, humidity)
-        VALUES (%s,%s,%s,%s,%s,%s,%s,%s)
-        """,
-        (
-            data["pm25"],
-            data["pm10"],
-            data["no2"],
-            data["so2"],
-            data["co"],
-            data["o3"],
-            data["temperature"],
-            data["humidity"]
-        )
+    """
+    INSERT INTO aqi_data 
+    (pm25, pm10, no2, so2, co, o3, temperature, humidity)
+    VALUES (%s,%s,%s,%s,%s,%s,%s,%s)
+    """,
+    (
+        data["pm25"],
+        data["pm10"],
+        data["no2"],
+        data["so2"],
+        data["co"],
+        data["o3"],
+        data["temperature"],
+        data["humidity"]
+    )
     )
 
     conn.commit()
 
-    print("AQI data stored successfully")
+    print("AQI data stored")
 
 
-# Manual route to store data
-@app.post("/store")
+# manual trigger
+@app.get("/store")
 def store():
     store_data()
-    return {"status": "data stored successfully"}
+    return {"status": "data stored"}
+
+# scheduler
+scheduler = BackgroundScheduler()
+scheduler.add_job(store_data, "interval", hours=1)
+scheduler.start()
     
 @app.get("/data")
 def get_data():
@@ -66,16 +73,7 @@ def predict_aqi():
     }
 
 
-# Scheduler
-scheduler = BackgroundScheduler()
 
-@app.on_event("startup")
-def start_scheduler():
-
-    scheduler.add_job(store_data, "interval", hours=1)
-    scheduler.start()
-
-    print("Scheduler started")
 
 
 
